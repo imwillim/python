@@ -45,9 +45,12 @@ Dữ liệu đầu ra
     Ngày tháng năm kết quả, cách nhau 1 khoảng trắng
 '''
 def minus_days(day, month, year, minus_day) -> str:
-    date = arrow.get(year, month, day)
-    tomorrow = date.shift(days=-minus_day)
-    return tomorrow.format('DD MM YYYY')
+    try:
+        date = arrow.get(year, month, day)
+        tomorrow = date.shift(days=-minus_day)
+        return tomorrow.format('DD MM YYYY')
+    except ValueError as error:
+        return str(error)
 
 
 def day_difference(day1: int, month1: int, year1: int,
