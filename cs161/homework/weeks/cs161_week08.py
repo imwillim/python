@@ -9,16 +9,13 @@ Dữ liệu đầu vào
     Dòng 1: Nhập 1 số nguyên 0<=n<=10^20
 Dữ liệu đầu ra
     In chuỗi số có dấu thập phân
+Ví dụ
+    Input: 7546789876
+    Output: 7,546,789,876
 '''
 def integer_to_string(number: int) -> str:
-    def validate(input) -> None:
-        if not (0 <= input <= 10 ** 20):
-            raise ValueError('Number must be between 0 and 10^20')
-    try:
-        validate(number)
-        return f'{number:,}'
-    except ValueError as error:
-        return str(error)
+    return f'{number:,}'
+
 
 '''
 P02 - XỬ LÝ CHUỖI
@@ -35,31 +32,24 @@ Dữ liệu đầu ra
     b. In số từ có nhiều hơn n ký tự
     c. In từ ngắn nhất và dài nhất.
 Ví dụ
-    Input: 7546789876
-    Output: 7,546,789,876
+    Input: n=3, string='Những quy tắc đạo đức có một vị trí rất quan trọng'
+    Output:
+        a. Những-quy-tắc-đạo-đức-có-một-vị-trí-rất-quan-trọng
+        b. Những , quan , trọng
+        c. Có, Những
 '''
-def process_string(**kwargs) -> None:
-    def validate(args) -> None:
-        if not (0 < args['n'] <= 10 ** 9):
-            raise ValueError('N must be between 0 and 10^9')
+def process_string(string: str, n: int) -> None:
+    sentence = string.replace(' ', '-')
+    print('a. ' + sentence)
 
-    try:
-        validate(kwargs)
-        sentence = kwargs['string'].replace(' ', '-')
-        print(sentence)
+    raw_sentence = string.split(' ')
+    filtered_words = [word for word in raw_sentence if len(word) > n]
+    print('b. ' + (', '.join(filtered_words)))
 
-        raw_sentence = kwargs['string'].split(' ')
-        filtered_words = [word for word in raw_sentence if len(word) > kwargs['n']]
-        print((", ".join(filtered_words)))
+    min_word = min(raw_sentence, key=len)
+    max_word = max(raw_sentence, key=len)
 
-        min_word = min(raw_sentence, key=len)
-        max_word = max(raw_sentence, key=len)
-
-        print(f'{min_word}, {max_word}')
-    except ValueError as error:
-        print(error)
-    except KeyError as error:
-        print(f'Missing keyword argument: {str(error)}', file=sys.stderr)
+    print(f'c. {min_word}, {max_word}')
 
 '''
 P03 - CHUẨN HÓA HỌ VÀ TÊN
@@ -80,17 +70,12 @@ Ví dụ:
 def normalize_name(name) -> str:
     return name.strip().title()
 
+
 if __name__ == '__main__':
     print('VIII. CS161 Week 08:')
-    print('1. Integer to string:')
-    print(integer_to_string(1234567890))
+    print('1. Integer to string:', integer_to_string(1234567890))
 
     print('\n2. Process string:')
-    params = {
-        'string': 'Những quy tắc đạo đức có một vị trí rất quan trọng',
-        'n': 3
-    }
-    process_string(**params)
+    process_string('Những quy tắc đạo đức có một vị trí rất quan trọng', 3)
 
-    print('\n3. Normalize name:')
-    print(normalize_name(' nguyEn VAN a '))
+    print('\n3. Normalize name:', normalize_name(' nguyEn VAN aB '))

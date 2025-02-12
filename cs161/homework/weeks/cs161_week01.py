@@ -1,4 +1,3 @@
-from typing import Union, Any
 
 '''
 P01 - THƯƠNG 2 SỐ NGUYÊN
@@ -10,16 +9,11 @@ Dữ liệu đầu vào
 Dữ liệu đầu ra
     Thương của 2 số nguyên, theo định dạng a - b = c. Lấy 2 chữ số phần thập phân.
 '''
-def divide(first_integer: int, second_integer: int) -> Union[str, float]:
-    def validate(divisor: int) -> None:
-        if divisor == 0:
-            raise ValueError('Divisor cannot be 0')
 
-    try:
-        validate(second_integer)
-        return first_integer / second_integer
-    except ValueError as exception:
-        return str(exception)
+def divide(first_integer: int, second_integer: int):
+    if second_integer == 0:
+        return 'Cannot divide by 0'
+    return first_integer / second_integer
 
 '''
 P02 - SỐ KWH ĐIỆN TIÊU THỤ
@@ -36,20 +30,9 @@ Ví dụ
     Input: 10 15
     Output: 5    
 '''
-def electric_consumption(previous: int, current: int) -> Union[str, int]:
-    def validate(start: int, end: int) -> None:
-        if start > end:
-            raise ValueError('Previous must not be greater than current')
-        if start < 0:
-            raise ValueError('Previous must be greater than 0')
-        elif start > 10 ** 9:
-            raise ValueError('Previous must be less than 10^9')
 
-    try:
-        validate(previous, current)
-        return current - previous
-    except ValueError as exception:
-        return str(exception)
+def electric_consumption(previous: int, current: int) -> int:
+    return current - previous
 
 '''
 P03 - TÍNH TUỔI
@@ -62,16 +45,10 @@ Dữ liệu đầu vào
 Dữ liệu đầu ra
     Tuổi của người đó.
 '''
-def calculate_age(age) -> Union[Union[str, int], Any]:
-    def validate(year: int) -> None:
-        if year > 2025:
-            raise ValueError('Age must not be greater than 2025')
 
-    try:
-        validate(age)
-        return 2025 - age
-    except ValueError as exception:
-        return str(exception)
+def calculate_age(birth_year: int) -> int:
+    return 2025 - birth_year
+
 
 '''
 P04 - TÍNH TÍNH TIỀN MUA HÀNG
@@ -85,21 +62,11 @@ Dữ liệu đầu vào
 Dữ liệu đầu ra
     Tổng tiền phải trả. Lấy 0 chữ số phần thập phân.
 '''
-def calculate_package(price, quantity) -> Union[Union[str, float], Any]:
-    def validate(money: int, amount: int) -> None:
-        if money < 0:
-            raise ValueError('Price must not be less than 0')
 
-        if amount < 0:
-            raise ValueError('Amount must not be less than 0')
-
-    try:
-        validate(price, quantity)
-        before_tax = price * quantity
-        tax = before_tax * 0.1
-        return before_tax - tax
-    except ValueError as exception:
-        return str(exception)
+def calculate_package(price: int, quantity: int) -> float:
+    cost_before_tax = price * quantity
+    tax = cost_before_tax * 0.1
+    return cost_before_tax - tax
 
 '''
 P05 - ĐỔI TIỀN
@@ -125,39 +92,26 @@ Ví dụ:
         1000: 1
 '''
 def convert_money_vnd(money: int) -> str:
-    def validate(cash: int) -> None:
-        if money % 500 != 0:
-            raise ValueError('Money must be in VND')
+    exchange_table = {
+        500000: 0,
+        200000: 0,
+        100000: 0,
+        50000: 0,
+        20000: 0,
+        10000: 0,
+        5000: 0,
+        2000: 0,
+        1000: 0
+    }
+    for value in exchange_table:
+        if money >= value:
+            exchange_table[value] = money // value
+            money %= value
 
-        if cash < 0:
-            raise ValueError('Money must not be less than 0')
-        if cash > 10 ** 9:
-            raise ValueError('Money must not be greater than 10^9')
-
-    try:
-        validate(money)
-        ratio_chart = {
-            500000: 0,
-            200000: 0,
-            100000: 0,
-            50000: 0,
-            20000: 0,
-            10000: 0,
-            5000: 0,
-            2000: 0,
-            1000: 0
-        }
-        for ratio in ratio_chart:
-            if money >= ratio:
-                ratio_chart[ratio] = money // ratio
-                money %= ratio
-
-        chart = str()
-        for ratio, count in ratio_chart.items():
-            chart += f'{ratio}: {count}\n'
-        return chart
-    except ValueError as exception:
-        return str(exception)
+    table = str()
+    for value, count in exchange_table.items():
+        table += f'{value}: {count}\n'
+    return table
 
 
 if __name__ == '__main__':

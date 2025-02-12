@@ -1,72 +1,71 @@
 from typing import Union
 import arrow
 
-from common.utils import validate_date
+'''
+P01 - SỐ THỨ TỰ TUYỆT ĐỐI CỦA NGÀY
+Mô tả
+    Viết chương trình nhập vào 1 ngày.
+    Tính số thứ tự tuyệt đối của ngày, tính từ mốc 1/1/1970.
+Dữ liệu đầu vào
+    Một dòng duy nhất, 3 số nguyên dương, day, month, year.
+    Trong đó:
+        1 <= day <= 28, 29, 30, 31 tuỳ month
+        1 <= month <= 12
+        1 <= year <= 10^9
+Dữ liệu đầu ra
+    Số thứ tự của ngày trong năm
+Ví dụ
+    Input: 10 1 1970
+    Output: 10
 
-
-def absolute_day(**kwargs) -> str:
+    Input: 10 1 1971
+    Output 375
+'''
+def absolute_day(day, month, year) -> Union[str, int]:
     try:
-        validate_date(**kwargs)
-        date = arrow.get(**kwargs)
-        tomorrow = date.shift(days=-1)
-        return tomorrow.format('DD MM YYYY')
-    except ValueError as error:
-        return str(error)
+        epoch_time_date = arrow.get(1970, 1, 1)
+        date = arrow.get(year, month, day)
+        difference = date - epoch_time_date
+        return difference.days
+    except ValueError as exception:
+        return str(exception)
+
+'''
+P02 - TRỪ ĐI N NGÀY
+Mô tả
+    Viết chương trình trừ n ngày vào một ngày tháng năm.
+Dữ liệu đầu vào
+    Một dòng duy nhất, bốn số nguyên dương day, month, year, n, cách nhau một khoảng trắng.
+    Trong đó 
+        1 <= day <= 28,29,30,31 tuỳ month
+        1 <= month <= 12 
+        1 <= year <= 10^9
+        1 <= n <= 10^9
+Dữ liệu đầu ra
+    Ngày tháng năm kết quả, cách nhau 1 khoảng trắng
+'''
+def minus_days(day, month, year, minus_day) -> str:
+    date = arrow.get(year, month, day)
+    tomorrow = date.shift(days=-minus_day)
+    return tomorrow.format('DD MM YYYY')
 
 
-def minus_days(**kwargs) -> str:
-    def validate(args):
-        if not (0 < args['minus_day'] <= 10 ** 9):
-            raise ValueError('Minus day must be greater than 0 and less than 10^9')
-
+def day_difference(day1: int, month1: int, year1: int,
+                   day2: int, month2: int, year2: int):
     try:
-        validate_date(**kwargs)
-        validate(kwargs)
-        date = arrow.get(**kwargs)
-        tomorrow = date.shift(days=-kwargs['minus_day'])
-        return tomorrow.format('DD MM YYYY')
-    except ValueError as error:
-        return str(error)
-
-
-def day_difference(**kwargs) -> Union[str, int]:
-    try:
-        validate_date(**kwargs['first_day'])
-        validate_date(**kwargs['second_day'])
-
-        first_day = arrow.get(**kwargs['first_day'])
-        second_day = arrow.get(**kwargs['second_day'])
+        first_day = arrow.get(year1, month1, day1)
+        second_day = arrow.get(year2, month2, day2)
         difference = first_day - second_day
         return difference.days
     except ValueError as error:
         return str(error)
 
-
 if __name__ == '__main__':
     print('IV. CS161 Week 04:')
-    params = {
-        'day': 1,
-        'month': 12,
-        'year': 2020
-    }
-    print('1. Absolute day:')
-    print(absolute_day(**params))
 
-    params['minus_day'] = 10
-    print('2. Minus days:')
-    print(minus_days(**params))
+    print('1. Absolute day:', absolute_day(1, 10, 2000))
 
-    print('3. Day difference:')
-    params['first_day'] = {
-        'day': 1,
-        'month': 12,
-        'year': 2020
-    }
+    print('\n2. Minus days:', minus_days(1, 1, 2025, 5))
 
-    params['second_day'] = {
-        'day': 15,
-        'month': 8,
-        'year': 2020
-    }
-
-    print(day_difference(**params))
+    print('\n3. Day difference:', day_difference(1, 12, 2020,
+                                                 15, 8, 2020))

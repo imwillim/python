@@ -1,8 +1,6 @@
 import arrow
 import calendar
 
-from common.utils import validate_date
-
 '''
 P01 - ĐẬU HAY RỚT
 Mô tả
@@ -27,31 +25,23 @@ Ví dụ
     Input: assignment=9.5, lab=8.5, final=8.0, cheating=0
     Output: 8.6 PASSED
 '''
-def passed(**kwargs) -> str:
-    def validate(args):
-        for key in ['assignment', 'lab', 'final']:
-            if not (0 <= args[key] <= 10):
-                raise ValueError(f'{key} must be between 0 and 10')
 
-        if not (0 <= args['cheating'] <= 1):
-            raise ValueError('Cheating must be 0 or 1')
+def passed(assignment, lab, final, cheating) -> str:
+    assignment_rate = assignment * 0.3
+    lab_rate = lab * 0.3
+    final_rate = final * 0.4
 
-    try:
-        validate(kwargs)
-        grade = (kwargs['assignment'] * 0.3) + (kwargs['lab'] * 0.3) + (kwargs['final'] * 0.4)
-        rounded_grade = round(grade, 1)
+    grade = assignment_rate + lab_rate + final_rate
+    rounded_grade = round(grade, 1)
 
-        if kwargs['cheating'] == 1:
-            return f'{rounded_grade} FAILED'
+    if cheating == 1:
+        return f'{rounded_grade} FAILED'
 
-        if grade < 5:
-            return f'{rounded_grade} FAILED'
-        else:
-            return f'{rounded_grade} PASSED'
-    except ValueError as e:
-        return str(e)
-    except KeyError as error:
-        return f'Missing keyword argument: {str(error)}'
+    if grade < 5:
+        return f'{rounded_grade} FAILED'
+    else:
+        return f'{rounded_grade} PASSED'
+
 
 '''
 P02 - NĂM NHUẬN
@@ -70,11 +60,6 @@ Ví dụ
     Output: Khong phai nam nhuan
 '''
 def leap_year(year):
-    def validate(valid_year):
-        if not (0 < valid_year <= 10 ** 9):
-            raise ValueError('Year must be greater than 0 and less than 10^9')
-
-    validate(year)
     if year % 400 == 0:
         return 'Nam nhuan'
 
@@ -82,7 +67,6 @@ def leap_year(year):
         return 'Nam nhuan'
     else:
         return 'Khong phai nam nhuan'
-
 
 '''
 P03 - SỐ NGÀY TRONG THÁNG
@@ -104,22 +88,10 @@ Ví dụ
     Input: 2 2020
     Output: 29   
 '''
-def days_in_month(**kwargs):
-    def validate(args):
-        if not (1 <= args['month'] <= 12):
-            raise ValueError('Month must be between 1 and 12')
 
-        if not (0 < args['year'] <= 10 ** 9):
-            raise ValueError('Year must be greater than 0 and less than 10^9')
-
-    try:
-        validate(kwargs)
-        days = calendar.monthrange(**kwargs)[1]
-        return days
-    except ValueError as error:
-        return str(error)
-    except KeyError as error:
-        return f'Missing keyword argument: {str(error)}'
+def days_in_month(month, year):
+    days = calendar.monthrange(year, month)[1]
+    return days
 
 '''
 P04 - NGÀY MAI
@@ -142,17 +114,13 @@ Ví dụ
     Input: 31 12 2019
     Output: 1 1 2020
 '''
-def tomorrow(**kwargs):
+def tomorrow(day, month, year):
     try:
-        validate_date(**kwargs)
-        date = arrow.get(**kwargs)
+        date = arrow.get(day, month, year)
         next_day = date.shift(days=1)
         return next_day.format('DD MM YYYY')
     except ValueError as error:
         return str(error)
-    except KeyError as error:
-        return f'Missing keyword argument: {str(error)}'
-
 
 '''
 P26 - TIỀN THUÊ PHÒNG
@@ -179,57 +147,35 @@ Ví dụ
     Input: 7 C
     Output: 175000
 '''
-def rent(**kwargs):
-    def validate(args):
-        if not (0 < args['day'] <= 10 ** 9):
-            raise ValueError('Day must be greater than 0 and less than 10^9')
 
-        if args['type'] not in ('A', 'B', 'C'):
-            raise ValueError('Type must be A, B or C')
+def rent(day, room_type):
+    rental_type = {
+        'A': {'price': 450000, 'tax': 0.1},
+        'B': {'price': 350000, 'tax': 0.08},
+        'C': {'price': 25000, 'tax': 0.08},
+    }
+    specific_rental_type = rental_type[room_type]
+    rent_before_tax = specific_rental_type['price'] * day
+    if day > 12:
+        tax = rent_before_tax * specific_rental_type['tax']
+        return rent_before_tax - tax
+    else:
+        return rent_before_tax
 
-    try:
-        validate(kwargs)
-        rental_type = {
-            'A': {'price': 450000, 'tax': 0.1},
-            'B': {'price': 350000, 'tax': 0.08},
-            'C': {'price': 25000, 'tax': 0.08},
-        }
-        before_tax = rental_type[kwargs['type']]['price'] * kwargs['day']
-        if kwargs['day'] > 12:
-            tax = before_tax * rental_type[kwargs['type']]['tax']
-            return before_tax - tax
-        else:
-            return before_tax
-    except ValueError as error:
-        return str(error)
-    except KeyError as error:
-        return f'Missing keyword argument: {str(error)}'
 
 if __name__ == '__main__':
     print('II. CS161 Week 02:')
     print('\n1. Passed or Failed:')
-    params = {
-        'assignment': 8,
-        'lab': 9,
-        'final': 10,
-        'cheating': 0
-    }
-    print(passed(**params))
+    print(passed(8, 9, 10, 0))
 
     print('\n2. Leap Year:')
     print(leap_year(2000))
 
     print('\n3. Days in Month:')
-    params = {
-        'month': 12,
-        'year': 2020,
-    }
-    print(days_in_month(**params))
+    print(days_in_month(12, 2020))
 
-    params['day'] = 18
     print('\n4. Tomorrow:')
-    print(tomorrow(**params))
+    print(tomorrow(2, 1, 1999))
 
-    params['type'] = 'C'
     print('\n5. Rental:')
-    print(rent(**params))
+    print(rent(12, 'C'))
