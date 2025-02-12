@@ -52,7 +52,23 @@ def minus_days(day, month, year, minus_day) -> str:
     except ValueError as error:
         return str(error)
 
-
+'''
+Mô tả
+    Viết chương trình nhập vào 2 ngày. Tính khoảng cách giữa 2 ngày đó.
+Dữ liệu đầu vào
+    Một dòng duy nhất, sáu số nguyên dương: day1, month1, year1; day2, month2, year2. 
+    Trong đó:
+        1<=d1,d2<=28,29,30,31 tuỳ m1,m2
+        1 <= m1, m2 <= 12
+        1 <= y1 <= y2 <= 10^9
+Dữ liệu đầu ra
+    Khoảng cách giữa 2 ngày
+Ví dụ
+    Input 
+        day1=20 month1=11 year1=2019 
+        day2=25 month2=11 year2=2019   
+    Output: 5      
+'''
 def day_difference(day1: int, month1: int, year1: int,
                    day2: int, month2: int, year2: int):
     try:
