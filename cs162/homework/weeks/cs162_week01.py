@@ -1,7 +1,7 @@
-from typing import Union, Any
-
+import math
 import arrow
 from arrow import Arrow
+from typing import Union, Any
 
 '''
 Assignment 1
@@ -25,7 +25,7 @@ def sum_area_of_circles(file_name: str) -> Union[Union[str, float], Any]:
                 total_area = 0.0
                 for line in lines:
                     center_x, center_y, radius = line.split()
-                    area = 3.14 * float(radius) * float(radius)
+                    area = math.pi * float(radius) * float(radius)
                     total_area += area
                 return total_area
         except FileNotFoundError as error:
