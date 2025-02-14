@@ -17,27 +17,26 @@ Sum of their area and save the result to another text file.
 Note: 3 4 1.2 means a circle with center point is at (3,4) and radius is 1.2
 '''
 def sum_area_of_circles(file_name: str) -> Union[Union[str, float], Any]:
-    def get_total_area(input_file: str) -> Union[str, Any]:
-        try:
-            with open(input_file, 'r') as file:
-                size = int(file.readline())
-                lines = file.readlines()
-                total_area = 0.0
-                for line in lines:
-                    center_x, center_y, radius = line.split()
-                    area = math.pi * float(radius) * float(radius)
-                    total_area += area
-                return total_area
-        except FileNotFoundError as error:
-            return str(error.strerror + ': ' + error.filename)
-
-    def write_file(output_file: str, area: float) -> None:
-        with open(output_file, 'w') as file:
-            file.write(str(area))
-
     result = get_total_area(file_name)
-    write_file('output1.txt', result)
+    write_area_to_file('output1.txt', result)
 
+def get_total_area(input_file: str) -> Union[str, Any]:
+    try:
+        with open(input_file, 'r') as file:
+            size = int(file.readline())
+            lines = file.readlines()
+            total_area = 0.0
+            for line in lines:
+                center_x, center_y, radius = line.split()
+                area = math.pi * float(radius) * float(radius)
+                total_area += area
+            return total_area
+    except FileNotFoundError as error:
+        return str(error.strerror + ': ' + error.filename)
+
+def write_area_to_file(output_file: str, area: float) -> None:
+    with open(output_file, 'w') as file:
+        file.write(str(area))
 
 '''
 Assignment 2
@@ -51,30 +50,30 @@ Sort the array in ascending order and save the array to another text file.
 2019 01 15
 '''
 def sort_dates(file_name: str) -> Union[str, Any]:
-    def get_sorted_dates(input_file: str) -> Union[str, list[Arrow]]:
-        try:
-            with open(input_file, 'r') as file:
-                size = int(file.readline())
-                lines = file.readlines()
-                dates = []
-                for line in lines:
-                    year_string, month_string, day_string = line.split()
-                    year = int(year_string)
-                    month = int(month_string)
-                    day = int(day_string)
-                    date = arrow.get(year, month, day)
-                    dates.append(date)
-                return sorted(dates)
-        except FileNotFoundError as error:
-            return str(error.strerror + ': ' + error.filename)
-
-    def write_file(output_file: str, dates: list[Arrow]) -> None:
-        with open(output_file, 'w') as file:
-            for date in dates:
-                file.write(date.format('DD MM YYYY') + '\n')
-
     sorted_dates = get_sorted_dates(file_name)
-    write_file('output2.txt', sorted_dates)
+    write_dates_to_file('output2.txt', sorted_dates)
+
+def get_sorted_dates(input_file: str) -> Union[str, list[Arrow]]:
+    try:
+        with open(input_file, 'r') as file:
+            size = int(file.readline())
+            lines = file.readlines()
+            dates = []
+            for line in lines:
+                year_string, month_string, day_string = line.split()
+                year = int(year_string)
+                month = int(month_string)
+                day = int(day_string)
+                date = arrow.get(year, month, day)
+                dates.append(date)
+            return sorted(dates)
+    except FileNotFoundError as error:
+        return str(error.strerror + ': ' + error.filename)
+
+def write_dates_to_file(output_file: str, dates: list[Arrow]) -> None:
+    with open(output_file, 'w') as file:
+        for date in dates:
+            file.write(date.format('DD MM YYYY') + '\n')
 
 if __name__ == '__main__':
     print('I. CS162 Week 01:')
