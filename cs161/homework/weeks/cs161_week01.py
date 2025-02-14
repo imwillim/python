@@ -11,9 +11,10 @@ Dữ liệu đầu ra
 '''
 
 def divide(first_integer: int, second_integer: int):
-    if second_integer == 0:
-        return 'Cannot divide by 0'
-    return first_integer / second_integer
+    try:
+        return first_integer / second_integer
+    except ZeroDivisionError as exception:
+        return str(exception)
 
 '''
 P02 - SỐ KWH ĐIỆN TIÊU THỤ
@@ -116,16 +117,12 @@ def convert_money_vnd(money: int) -> str:
 
 if __name__ == '__main__':
     print('I. CS161 Week 01:')
-    print('1. Divide exercise:')
+    print('1. Divide exercise:', divide(1, 0))
 
-    print('\n2. Electric consumption:')
-    print(electric_consumption(10, 15))
+    print('\n2. Electric consumption:', (electric_consumption(10, 15)))
 
-    print('\n3. Age calculation:')
-    print(calculate_age(2020))
+    print('\n3. Age calculation:', (calculate_age(2020)))
 
-    print('\n4. Package calculation:')
-    print(calculate_package(1000, 10))
+    print('\n4. Package calculation:', (calculate_package(1000, 10)))
 
-    print('\n5. Money conversion:')
-    print(convert_money_vnd(10024000))
+    print('\n5. Money conversion:', (convert_money_vnd(10024000)))
