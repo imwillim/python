@@ -16,10 +16,13 @@ Sum of their area and save the result to another text file.
 
 Note: 3 4 1.2 means a circle with center point is at (3,4) and radius is 1.2
 '''
+# Hàm này làm gì trả về gì đâu mà define rtype.
 def sum_area_of_circles(file_name: str) -> Union[Union[str, float], Any]:
     result = get_total_area(file_name)
     write_area_to_file('output1.txt', result)
 
+# Code lại, hàm quá rối.
+# Mỗi hàm làm một việc thôi.
 def get_total_area(input_file: str) -> Union[str, Any]:
     try:
         with open(input_file, 'r') as file:
@@ -53,6 +56,7 @@ def sort_dates(file_name: str) -> Union[str, Any]:
     sorted_dates = get_sorted_dates(file_name)
     write_dates_to_file('output2.txt', sorted_dates)
 
+# Code lại, hàm quá rối.
 def get_sorted_dates(input_file: str) -> Union[str, list[Arrow]]:
     try:
         with open(input_file, 'r') as file:
