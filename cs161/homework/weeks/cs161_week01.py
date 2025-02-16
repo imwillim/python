@@ -10,6 +10,10 @@ Dữ liệu đầu ra
     Thương của 2 số nguyên, theo định dạng a - b = c. Lấy 2 chữ số phần thập phân.
 '''
 
+# Chưa thấy lấy 2 chữ số phần thập phân, nhưng thôi tạm chấp nhận.
+# Chú ý là phép / là chia lấy phần thập phân, // là chia lấy phần nguyên.
+# Hàm vừa trả float vừa trả str. Handle thí mẹ.
+# Trong trường hợp này cứ để raise exception ra ngoài, không cần handle.
 def divide(first_integer: int, second_integer: int):
     try:
         return first_integer / second_integer
@@ -32,6 +36,7 @@ Ví dụ
     Output: 5    
 '''
 
+# Đúng
 def electric_consumption(previous: int, current: int) -> int:
     return current - previous
 
@@ -47,6 +52,7 @@ Dữ liệu đầu ra
     Tuổi của người đó.
 '''
 
+# Đúng
 def calculate_age(birth_year: int) -> int:
     return 2025 - birth_year
 
@@ -63,10 +69,12 @@ Dữ liệu đầu vào
 Dữ liệu đầu ra
     Tổng tiền phải trả. Lấy 0 chữ số phần thập phân.
 '''
-
+# Không ai tính tiền `blank line`.
+# Output phải là số int như đề bài yêu cầu.
 def calculate_package(price: int, quantity: int) -> float:
     cost_before_tax = price * quantity
     tax = cost_before_tax * 0.1
+
     return cost_before_tax - tax
 
 '''
@@ -92,6 +100,7 @@ Ví dụ:
         2000: 0
         1000: 1
 '''
+# Không ai tính tiền `blank line`.
 def convert_money_vnd(money: int) -> str:
     exchange_table = {
         500000: 0,
@@ -104,14 +113,18 @@ def convert_money_vnd(money: int) -> str:
         2000: 0,
         1000: 0
     }
+
+    # Đúng. Nếu gặp trường hợp này trong tương lai thì có hàm `divmod``
     for value in exchange_table:
         if money >= value:
             exchange_table[value] = money // value
             money %= value
 
-    table = str()
+    table = '' # str() cũng được, nhưng không ai viết vậy.
+
     for value, count in exchange_table.items():
-        table += f'{value}: {count}\n'
+        table += f'{value}: {count}\n' # Tốt, biết xài string formater.
+
     return table
 
 
@@ -119,10 +132,14 @@ if __name__ == '__main__':
     print('I. CS161 Week 01:')
     print('1. Divide exercise:', divide(1, 0))
 
+    # Dư 1 cặp ngoặc
     print('\n2. Electric consumption:', (electric_consumption(10, 15)))
 
+    # Dư 1 cặp ngoặc
     print('\n3. Age calculation:', (calculate_age(2020)))
 
+    # Dư 1 cặp ngoặc
     print('\n4. Package calculation:', (calculate_package(1000, 10)))
 
+    # Dư 1 cặp ngoặc
     print('\n5. Money conversion:', (convert_money_vnd(10024000)))

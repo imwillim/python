@@ -13,6 +13,7 @@ Ví dụ
     Input: 7546789876
     Output: 7,546,789,876
 '''
+# Đúng
 def integer_to_string(number: int) -> str:
     return f'{number:,}'
 
@@ -38,6 +39,10 @@ Ví dụ
         b. Những , quan , trọng
         c. Có, Những
 '''
+# Đúng, nhưng lần sau nên tách thành 3 hàm khác nhau. Mỗi hàm làm 1 việc.
+# Hàm chỉ xử lý, việc in ra đáp án nên để trong hàm main.
+# tên biến string giống keyword (của các ngôn ngữ khác) nên nên đổi tên biến khác.
+# Nếu return None thì để trống, không cần tường minh.
 def process_string(string: str, n: int) -> None:
     sentence = string.replace(' ', '-')
     print('a. ' + sentence)
@@ -67,6 +72,8 @@ Ví dụ:
     Input: ' nguyEn VAN a '
     Output: 'Nguyen Van A'
 '''
+# Bài này không dùm hàm có sẵn, tự code.
+# Đây là 1 trong các bài phỏng vấn. Bài gốc là chuẩn hoá chuỗi hoặc đếm từ (word)
 def normalize_name(name) -> str:
     return name.strip().title()
 

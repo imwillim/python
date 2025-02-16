@@ -21,6 +21,7 @@ Ví dụ
     Input: 10 1 1971
     Output 375
 '''
+# Không xài hàm có sẵn.
 def absolute_day(day, month, year) -> Union[str, int]:
     try:
         epoch_time_date = arrow.get(1970, 1, 1)
@@ -44,6 +45,7 @@ Dữ liệu đầu vào
 Dữ liệu đầu ra
     Ngày tháng năm kết quả, cách nhau 1 khoảng trắng
 '''
+# Không xài hàm có sẵn.
 def minus_days(day, month, year, minus_day) -> str:
     try:
         date = arrow.get(year, month, day)
@@ -69,6 +71,7 @@ Ví dụ
         day2=25 month2=11 year2=2019   
     Output: 5      
 '''
+# Không xài hàm có sẵn.
 def day_difference(day1: int, month1: int, year1: int,
                    day2: int, month2: int, year2: int):
     try:
@@ -86,5 +89,6 @@ if __name__ == '__main__':
 
     print('\n2. Minus days:', minus_days(1, 1, 2025, 5))
 
+    # Sao xuống dòng nhìn gớm vậy
     print('\n3. Day difference:', day_difference(1, 12, 2020,
                                                  15, 8, 2020))

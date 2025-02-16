@@ -17,14 +17,22 @@ Ví dụ
     Input: array=[3, 1, 2, 3, 4, 5], n=6, k=3
     Output: 12
 '''
+# Không ai tính tiền `blank line`.
 def largest_sum_subset_k(array: list[int], n: int, k: int) -> Optional[int]:
+    # Đề bài cho nguyên dương, gán bằng 0 là được rồi. 
+    # Xài lệnh đao to búa lớn quá, người sau đọc phải đọc python document và đoán ý.
     largest = -sys.maxsize
+    
+    # Viết 2 vòng for kiểu lồng nhau mà đi pv là cook. 
+    # Đưa vòng for thứ 2 vào 1 hàm riêng, rồi gọi hàm đó ở trong vòng for thứ nhất.
+    # Sau 3 tháng, có hiểu n - k + 1 là gì không? Tại sao không đặt thành biến cho dễ nhớ.
     for start in range(n - k + 1):
         sum_subset = 0
         end = start + k
         for index in range(start, end):
             sum_subset += array[index]
             largest = max(largest, sum_subset)
+    
     return largest
 
 '''
@@ -41,11 +49,16 @@ Ví dụ
     Input: array1=[3, 1, 2, 3, 4, 5], array2=[1, 2, 3, 4, 5, 6]
     Output: [3, 4, 5]
 '''
+# Không ai tính tiền `blank line`.
+# nên đặt a_1 hoặc arr_1
 def elements_intersection(arr1: list[int], arr2: list[int]):
-    result = []
-    for num in arr1:
-        if num in arr2:
-            result.append(num)
+    # Nên xài list comprehension.
+    result = [num if num in arr2 for num in arr1]
+
+    # for num in arr1:
+    #     if num in arr2:
+    #         result.append(num)
+
     return result
 
 '''
@@ -61,6 +74,8 @@ Ví dụ:
     Input: array=[1, 2, 3, 4, 5]
     Output: [1, 2, 3, 4, 5]    
 '''
+# Tự code nào.
+# Không ai tính tiền `blank line`.
 def reverse_array(array: list[int]):
     reversed_iterator = reversed(array)
     return list(reversed_iterator)

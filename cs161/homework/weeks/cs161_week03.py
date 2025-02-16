@@ -26,6 +26,10 @@ Ví dụ
     Output: 8.6 PASSED
 '''
 
+# Sao lúc khai báo có kiểu dữ liệu, lúc không vậy? Thống nhất 1 style thôi.
+# cheating -> is_cheating như vầy mới đúng ngữ nghĩa
+# trong python nên để is_cheating là True/False
+# Rồi làm tròn 1 chữ số đâu.
 def passed(assignment, lab, final, cheating) -> str:
     assignment_rate = assignment * 0.3
     lab_rate = lab * 0.3
@@ -39,8 +43,10 @@ def passed(assignment, lab, final, cheating) -> str:
 
     if grade < 5:
         return f'{rounded_grade} FAILED'
-    else:
-        return f'{rounded_grade} PASSED'
+
+    # Không nên xài else.
+    
+    return f'{rounded_grade} PASSED'
 
 
 '''
@@ -59,14 +65,17 @@ Ví dụ
     Input: 2019
     Output: Khong phai nam nhuan
 '''
+# Hàm này nên là is_leap_year và trả về boolean
 def leap_year(year):
     if year % 400 == 0:
         return 'Nam nhuan'
 
     if year % 100 == 0 and year % 4 != 0:
         return 'Nam nhuan'
-    else:
-        return 'Khong phai nam nhuan'
+    
+    # Không nên xài else.
+
+    return 'Khong phai nam nhuan'
 
 '''
 P03 - SỐ NGÀY TRONG THÁNG
@@ -88,7 +97,7 @@ Ví dụ
     Input: 2 2020
     Output: 29   
 '''
-
+# Trời mẹ, code bình thường, xài if, không được xài hàm có sẵn
 def days_in_month(month, year):
     days = calendar.monthrange(year, month)[1]
     return days
@@ -114,6 +123,8 @@ Ví dụ
     Input: 31 12 2019
     Output: 1 1 2020
 '''
+# Trời mẹ, code bình thường, xài if, không được xài hàm có sẵn
+# Không ai tính tiền `blank line`.
 def tomorrow(day, month, year):
     try:
         date = arrow.get(day, month, year)
@@ -147,20 +158,25 @@ Ví dụ
     Input: 7 C
     Output: 175000
 '''
-
+# Không ai tính tiền `blank line`.
 def rent(day, room_type):
     rental_type = {
         'A': {'price': 450000, 'tax': 0.1},
         'B': {'price': 350000, 'tax': 0.08},
         'C': {'price': 25000, 'tax': 0.08},
     }
+
     specific_rental_type = rental_type[room_type]
     rent_before_tax = specific_rental_type['price'] * day
-    if day > 12:
-        tax = rent_before_tax * specific_rental_type['tax']
-        return rent_before_tax - tax
-    else:
+    
+    # Áp dụng kĩ thuật fast return, đảo ngược điêu kiện để code ngắn hơn
+
+    if day < 12:
         return rent_before_tax
+    
+    tax = rent_before_tax * specific_rental_type['tax']
+
+    return rent_before_tax - tax
 
 
 if __name__ == '__main__':
