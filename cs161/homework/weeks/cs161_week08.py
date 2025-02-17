@@ -1,4 +1,3 @@
-import sys
 
 '''
 P01 - IN SỐ NGUYÊN Ở DẠNG CHUỖI
@@ -43,17 +42,26 @@ Ví dụ
 # Hàm chỉ xử lý, việc in ra đáp án nên để trong hàm main.
 # tên biến string giống keyword (của các ngôn ngữ khác) nên nên đổi tên biến khác.
 # Nếu return None thì để trống, không cần tường minh.
-def process_string(string: str, n: int) -> None:
-    sentence = string.replace(' ', '-')
-    print('a. ' + sentence)
+# -> Fixed
 
-    raw_sentence = string.split(' ')
+def process_sentence(sentence: str, n: int):
+    print_sentence_with_hyphen(sentence)
+    print_words_with_larger_length_than_n(sentence, n)
+    print_max_length_word_and_min_length_word(sentence)
+
+def print_sentence_with_hyphen(sentence: str):
+    hyphen_sentence = sentence.replace(' ', '-')
+    print('a. ' + hyphen_sentence)
+
+def print_words_with_larger_length_than_n(sentence: str, n: int):
+    raw_sentence = sentence.split(' ')
     filtered_words = [word for word in raw_sentence if len(word) > n]
     print('b. ' + (', '.join(filtered_words)))
 
+def print_max_length_word_and_min_length_word(sentence: str):
+    raw_sentence = sentence.split(' ')
     min_word = min(raw_sentence, key=len)
     max_word = max(raw_sentence, key=len)
-
     print(f'c. {min_word}, {max_word}')
 
 '''
@@ -74,15 +82,69 @@ Ví dụ:
 '''
 # Bài này không dùm hàm có sẵn, tự code.
 # Đây là 1 trong các bài phỏng vấn. Bài gốc là chuẩn hoá chuỗi hoặc đếm từ (word)
-def normalize_name(name) -> str:
-    return name.strip().title()
+# -> Fixed
+def normalize_name(name: str) -> str:
+    trimmed_name = trim_name(name)
+    single_space_name = remove_multiple_spaces(trimmed_name)
+    all_uppercased_name = uppercase_all(single_space_name)
+    capitalized_name = capitalize_name(all_uppercased_name)
+    return capitalized_name
 
+def trim_name(name: str) -> str:
+    start = 0
+    end = len(name) - 1
+    while start <= end and name[start] == ' ':
+        start += 1
+    while end >= start and name[end] == ' ':
+        end -= 1
+    return name[start:end + 1]
+
+def remove_multiple_spaces(name: str) -> str:
+    result = []
+    size = len(name)
+    for index in range(size):
+        if name[index] != ' ':
+            result.append(name[index])
+
+        if name[index] == ' ' and name[index + 1] != ' ':
+            result.append(' ')
+
+    return ''.join(result)
+
+def uppercase_all(name: str) -> str:
+    result = []
+    for char in name:
+        if 'a' <= char <= 'z':
+            order = ord(char)
+            char = chr(order - 32)
+        result.append(char)
+    return ''.join(result)
+
+def capitalize_name(uppercased_name: str) -> str:
+    result = []
+    size = len(uppercased_name)
+    first_uppercase_letter = uppercased_name[0]
+    result.append(first_uppercase_letter)
+
+    for index in range(1, size):
+        char = uppercased_name[index]
+        previous_char = uppercased_name[index - 1]
+        if previous_char == ' ' and 'A' <= char <= 'Z':
+            result.append(char)
+        elif char == ' ':
+            result.append(char)
+        else:
+            order = ord(char)
+            char = chr(order + 32)
+            result.append(char)
+    return ''.join(result)
 
 if __name__ == '__main__':
     print('VIII. CS161 Week 08:')
     print('1. Integer to string:', integer_to_string(1234567890))
 
     print('\n2. Process string:')
-    process_string('Những quy tắc đạo đức có một vị trí rất quan trọng', 3)
+    process_sentence('Những quy tắc đạo đức có một vị trí rất quan trọng', 3)
 
-    print('\n3. Normalize name:', normalize_name(' nguyEn VAN aB '))
+    test_name = ' nguyen  vAN aB '
+    print('\n3. Normalize name of :', normalize_name(test_name))

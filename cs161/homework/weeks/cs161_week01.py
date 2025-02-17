@@ -71,11 +71,12 @@ Dữ liệu đầu ra
 '''
 # Không ai tính tiền `blank line`.
 # Output phải là số int như đề bài yêu cầu.
-def calculate_package(price: int, quantity: int) -> float:
+# -> Fixed
+def calculate_package(price: int, quantity: int) -> int:
     cost_before_tax = price * quantity
     tax = cost_before_tax * 0.1
 
-    return cost_before_tax - tax
+    return int(cost_before_tax - tax)
 
 '''
 P05 - ĐỔI TIỀN
@@ -132,14 +133,10 @@ if __name__ == '__main__':
     print('I. CS161 Week 01:')
     print('1. Divide exercise:', divide(1, 0))
 
-    # Dư 1 cặp ngoặc
-    print('\n2. Electric consumption:', (electric_consumption(10, 15)))
+    print('\n2. Electric consumption:', electric_consumption(10, 15))
 
-    # Dư 1 cặp ngoặc
-    print('\n3. Age calculation:', (calculate_age(2020)))
+    print('\n3. Age calculation:', calculate_age(2020))
 
-    # Dư 1 cặp ngoặc
-    print('\n4. Package calculation:', (calculate_package(1000, 10)))
+    print('\n4. Package calculation:', calculate_package(1000, 10))
 
-    # Dư 1 cặp ngoặc
-    print('\n5. Money conversion:', (convert_money_vnd(10024000)))
+    print('\n5. Money conversion:', convert_money_vnd(10024000))

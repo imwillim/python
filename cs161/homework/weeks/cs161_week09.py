@@ -1,5 +1,4 @@
-import sys
-from typing import Optional
+
 
 '''
 P01 - TỔNG LỚN NHẤT TRONG DÃY CON CỦA MẢNG
@@ -18,23 +17,30 @@ Ví dụ
     Output: 12
 '''
 # Không ai tính tiền `blank line`.
-def largest_sum_subset_k(array: list[int], n: int, k: int) -> Optional[int]:
+def largest_sum_subset_k(array: list[int], n: int, k: int) -> int:
     # Đề bài cho nguyên dương, gán bằng 0 là được rồi. 
-    # Xài lệnh đao to búa lớn quá, người sau đọc phải đọc python document và đoán ý.
-    largest = -sys.maxsize
+    # Xài lệnh đao to búa lớn quá, người sau đọc phải đọc python document và đoán ý
+    # -> FIXED
+    largest = 0
     
     # Viết 2 vòng for kiểu lồng nhau mà đi pv là cook. 
     # Đưa vòng for thứ 2 vào 1 hàm riêng, rồi gọi hàm đó ở trong vòng for thứ nhất.
     # Sau 3 tháng, có hiểu n - k + 1 là gì không? Tại sao không đặt thành biến cho dễ nhớ.
-    for start in range(n - k + 1):
-        sum_subset = 0
-        end = start + k
-        for index in range(start, end):
-            sum_subset += array[index]
-            largest = max(largest, sum_subset)
-    
+    # -> FIXED
+    array_size = n
+    adjacent_element_count = k
+    sub_array_size = array_size - adjacent_element_count + 1
+    for start in range(sub_array_size):
+        end = start + adjacent_element_count
+        largest = get_largest_with_sum_sub_array(largest, array, start, end)
     return largest
 
+def get_largest_with_sum_sub_array(largest: int, array: list[int], start: int, end: int) -> int:
+    sum_sub_array = 0
+    for index in range(start, end):
+        sum_sub_array += array[index]
+        largest = max(largest, sum_sub_array)
+    return largest
 '''
 P02 - CÁC PHẦN TỬ CÙNG XUẤT HIỆN TRÊN 2 MẢNG
 Mô tả
@@ -51,14 +57,10 @@ Ví dụ
 '''
 # Không ai tính tiền `blank line`.
 # nên đặt a_1 hoặc arr_1
-def elements_intersection(arr1: list[int], arr2: list[int]):
-    # Nên xài list comprehension.
-    result = [num if num in arr2 for num in arr1]
-
-    # for num in arr1:
-    #     if num in arr2:
-    #         result.append(num)
-
+# -> Fixed
+def elements_intersection(array_1: list[int], array_2: list[int]) -> list[int]:
+    # Nên xài list comprehension -> Fixed.
+    result = [num for num in array_1 if num in array_2]
     return result
 
 '''
@@ -76,14 +78,17 @@ Ví dụ:
 '''
 # Tự code nào.
 # Không ai tính tiền `blank line`.
-def reverse_array(array: list[int]):
-    reversed_iterator = reversed(array)
-    return list(reversed_iterator)
+def reverse_array(array: list[int]) -> list[int]:
+    return array[::-1]
 
 if __name__ == '__main__':
     print('IX. CS161 Week 09:')
-    print('1. Sum of biggest subset of k element is', largest_sum_subset_k([1, 2, 6, 2, 3], 5, 3))
+    test_array_1 = [1, 2, 6, 2, 3]
+    print(f'1. Sum of biggest subset of k element of {test_array_1} is', largest_sum_subset_k(test_array_1, 5, 3))
 
-    print('\n2. Elements intersection:', elements_intersection([3, 5, 12, 67, 67, 45, 678], [5, 23, 12, 45, 12, 67]))
+    test_array_2 = [3, 5, 12, 67, 67, 45, 678]
+    test_array_3 = [5, 23, 12, 45, 12, 67]
+    print(f'\n2. Elements intersection between {test_array_2} and {test_array_3} is', elements_intersection(test_array_2, test_array_3))
 
-    print('\n3. Reverse array:', reverse_array([1, 2, 3, 4, 5]))
+    test_array_4 = [1, 2, 3, 4, 5]
+    print(f'\n3. Reverse array of {test_array_4}:', reverse_array(test_array_4))

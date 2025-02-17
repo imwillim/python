@@ -1,6 +1,3 @@
-import arrow
-import calendar
-
 '''
 P01 - ĐẬU HAY RỚT
 Mô tả
@@ -30,23 +27,24 @@ Ví dụ
 # cheating -> is_cheating như vầy mới đúng ngữ nghĩa
 # trong python nên để is_cheating là True/False
 # Rồi làm tròn 1 chữ số đâu.
-def passed(assignment, lab, final, cheating) -> str:
+# -> Fixed
+def passed(assignment: float, lab: float, final: float, is_cheating: bool) -> str:
     assignment_rate = assignment * 0.3
     lab_rate = lab * 0.3
     final_rate = final * 0.4
 
     grade = assignment_rate + lab_rate + final_rate
-    rounded_grade = round(grade, 1)
+    rounded_one_decimal_grade = round(grade, 1)
 
-    if cheating == 1:
-        return f'{rounded_grade} FAILED'
+    if is_cheating == 1:
+        return f'{rounded_one_decimal_grade} FAILED'
 
     if grade < 5:
-        return f'{rounded_grade} FAILED'
+        return f'{rounded_one_decimal_grade} FAILED'
 
-    # Không nên xài else.
-    
-    return f'{rounded_grade} PASSED'
+    # Không nên xài else
+
+    return f'{rounded_one_decimal_grade} PASSED'
 
 
 '''
@@ -66,16 +64,17 @@ Ví dụ
     Output: Khong phai nam nhuan
 '''
 # Hàm này nên là is_leap_year và trả về boolean
-def leap_year(year):
+# -> Fixed
+def is_leap_year(year: int) -> bool:
     if year % 400 == 0:
-        return 'Nam nhuan'
+        return True
 
-    if year % 100 == 0 and year % 4 != 0:
-        return 'Nam nhuan'
-    
-    # Không nên xài else.
+    if year % 100 == 0:
+        return False
 
-    return 'Khong phai nam nhuan'
+    if year % 4 == 0:
+        return True
+    return False
 
 '''
 P03 - SỐ NGÀY TRONG THÁNG
@@ -98,10 +97,16 @@ Ví dụ
     Output: 29   
 '''
 # Trời mẹ, code bình thường, xài if, không được xài hàm có sẵn
-def days_in_month(month, year):
-    days = calendar.monthrange(year, month)[1]
-    return days
+# -> Fixed
+def days_in_month(month: int, year: int) -> int:
+    thirty_day_months = (4, 6, 9, 11)
 
+    if month in thirty_day_months:
+        return 30
+
+    if month == 2:
+        return 29 if is_leap_year(year) else 28
+    return 31
 '''
 P04 - NGÀY MAI
 Mô tả
@@ -125,14 +130,28 @@ Ví dụ
 '''
 # Trời mẹ, code bình thường, xài if, không được xài hàm có sẵn
 # Không ai tính tiền `blank line`.
-def tomorrow(day, month, year):
+# -> Fixed
+def tomorrow(day: int, month: int, year: int) -> str:
     try:
-        date = arrow.get(day, month, year)
-        next_day = date.shift(days=1)
-        return next_day.format('DD MM YYYY')
+        validate_day(day, month, year)
+        return get_tomorrow(day, month, year)
     except ValueError as error:
         return str(error)
 
+def validate_day(day: int, month: int, year: int):
+    if day > days_in_month(month, year):
+        raise ValueError('Invalid day')
+
+def get_tomorrow(day: int, month: int, year: int) -> str:
+    day += 1
+    if day > days_in_month(month, year):
+        day = 1
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+
+    return f'{day} {month} {year}'
 '''
 P26 - TIỀN THUÊ PHÒNG
 Mô tả
@@ -185,7 +204,7 @@ if __name__ == '__main__':
     print(passed(8, 9, 10, 0))
 
     print('\n2. Leap Year:')
-    print(leap_year(2000))
+    print(is_leap_year(2000))
 
     print('\n3. Days in Month:')
     print(days_in_month(12, 2020))
