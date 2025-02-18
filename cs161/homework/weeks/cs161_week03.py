@@ -64,16 +64,17 @@ Ví dụ
     Output: Khong phai nam nhuan
 '''
 # Hàm này nên là is_leap_year và trả về boolean
-# -> Fixed
+# Không ai tính tiền `blank line`.
 def is_leap_year(year: int) -> bool:
     if year % 400 == 0:
         return True
 
-    if year % 100 == 0:
-        return False
-
-    if year % 4 == 0:
+    # Không ai viết vậy cả, vì khác với diễn giải bằng lời.
+    # Năm nhuân là năm chia hết cho 400 hoặc chia hết cho 4 nhưng không chia hết cho 100
+    
+    if  year % 4 == 0 and year % 100 != 0:
         return True
+
     return False
 
 '''
@@ -104,8 +105,10 @@ def days_in_month(month: int, year: int) -> int:
     if month in thirty_day_months:
         return 30
 
+    # Không nên viết inline như này vì sau rất khó đọc. Khỏi cần sửa, chỉ cần chú ý
     if month == 2:
         return 29 if is_leap_year(year) else 28
+
     return 31
 '''
 P04 - NGÀY MAI
@@ -134,6 +137,7 @@ Ví dụ
 def tomorrow(day: int, month: int, year: int) -> str:
     try:
         validate_day(day, month, year)
+
         return get_tomorrow(day, month, year)
     except ValueError as error:
         return str(error)
@@ -142,16 +146,17 @@ def validate_day(day: int, month: int, year: int):
     if day > days_in_month(month, year):
         raise ValueError('Invalid day')
 
+# Không được lồng 2 if
 def get_tomorrow(day: int, month: int, year: int) -> str:
-    day += 1
-    if day > days_in_month(month, year):
-        day = 1
-        month += 1
-        if month > 12:
-            month = 1
-            year += 1
+    day = day + 1 # Hạn chế viết +=
 
-    return f'{day} {month} {year}'
+    if day <= days_in_month(month, year):
+        return f'{day} {month} {year}'
+    
+    if month > 12:
+        return f'{1} {1} {year+1}'
+
+    return f'{day} {month + 1} {year}'
 '''
 P26 - TIỀN THUÊ PHÒNG
 Mô tả

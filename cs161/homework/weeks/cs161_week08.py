@@ -1,3 +1,4 @@
+import string
 
 '''
 P01 - IN SỐ NGUYÊN Ở DẠNG CHUỖI
@@ -49,19 +50,25 @@ def process_sentence(sentence: str, n: int):
     print_words_with_larger_length_than_n(sentence, n)
     print_max_length_word_and_min_length_word(sentence)
 
+# Không ai tính tiền `blank line`.
 def print_sentence_with_hyphen(sentence: str):
     hyphen_sentence = sentence.replace(' ', '-')
+
     print('a. ' + hyphen_sentence)
 
+# Không ai tính tiền `blank line`.
 def print_words_with_larger_length_than_n(sentence: str, n: int):
     raw_sentence = sentence.split(' ')
     filtered_words = [word for word in raw_sentence if len(word) > n]
+
     print('b. ' + (', '.join(filtered_words)))
 
+# Không ai tính tiền `blank line`.
 def print_max_length_word_and_min_length_word(sentence: str):
     raw_sentence = sentence.split(' ')
     min_word = min(raw_sentence, key=len)
     max_word = max(raw_sentence, key=len)
+
     print(f'c. {min_word}, {max_word}')
 
 '''
@@ -83,25 +90,34 @@ Ví dụ:
 # Bài này không dùm hàm có sẵn, tự code.
 # Đây là 1 trong các bài phỏng vấn. Bài gốc là chuẩn hoá chuỗi hoặc đếm từ (word)
 # -> Fixed
+# Không ai tính tiền `blank line`.
 def normalize_name(name: str) -> str:
     trimmed_name = trim_name(name)
     single_space_name = remove_multiple_spaces(trimmed_name)
     all_uppercased_name = uppercase_all(single_space_name)
     capitalized_name = capitalize_name(all_uppercased_name)
+
     return capitalized_name
 
+# Không ai tính tiền `blank line`.
 def trim_name(name: str) -> str:
     start = 0
     end = len(name) - 1
+
     while start <= end and name[start] == ' ':
         start += 1
+
     while end >= start and name[end] == ' ':
         end -= 1
+
     return name[start:end + 1]
 
+# Không ai tính tiền `blank line`.
+# Nếu truyền vào 1 kí tự thì zui :))
 def remove_multiple_spaces(name: str) -> str:
     result = []
     size = len(name)
+
     for index in range(size):
         if name[index] != ' ':
             result.append(name[index])
@@ -111,15 +127,28 @@ def remove_multiple_spaces(name: str) -> str:
 
     return ''.join(result)
 
+# Code gớm quá, code dính chùm với nhau
 def uppercase_all(name: str) -> str:
     result = []
+
     for char in name:
         if 'a' <= char <= 'z':
-            order = ord(char)
-            char = chr(order - 32)
+            # Tách biến phụ làm gì
+            # order = ord(char)
+            char = chr(ord(char) - 32)
+
         result.append(char)
+    
+    # Cách code hay hơn
+    for char in name:
+        if char in string.ascii_lowercase:
+            char = chr(ord(char) - 32)
+
+        result.append(char)
+
     return ''.join(result)
 
+# Code quá rối
 def capitalize_name(uppercased_name: str) -> str:
     result = []
     size = len(uppercased_name)

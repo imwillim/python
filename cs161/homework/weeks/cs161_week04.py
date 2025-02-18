@@ -25,17 +25,22 @@ Ví dụ
 
 
 # Không xài hàm có sẵn.
+# Không ai tính tiền `blank line`.
 # -> Fixed
 def get_absolute_day(day: int, month: int, year: int) -> int:
     try:
         validate_day(day, month, year)
+
         return calculate_absolute_day(day, month, year)
     except ValueError as error:
         print(error)
         return -1
 
+# Không ai tính tiền `blank line`.
 def calculate_absolute_day(day: int, month: int, year: int):
     days = 0
+
+    # Hạn chế xài +=
     for specific_year in range(1970, year):
         days += days_in_year(specific_year)
 
@@ -43,6 +48,7 @@ def calculate_absolute_day(day: int, month: int, year: int):
         days += days_in_month(specific_month, year)
 
     days += day
+
     return days
 
 def days_in_year(year):
@@ -63,14 +69,16 @@ Dữ liệu đầu ra
     Ngày tháng năm kết quả, cách nhau 1 khoảng trắng
 '''
 # Không xài hàm có sẵn.
-# -> Fixed
+# Không ai tính tiền `blank line`.
 def minus_days(day: int, month: int, year: int, minus_day: int) -> str:
     try:
         validate_day(day, month, year)
+
         return process_minus_days(day, month, year, minus_day)
     except ValueError as error:
         return str(error)
 
+# Code lại, lồng quá nhiều cấp
 def process_minus_days(day: int, month: int, year: int, minus_day: int):
     while minus_day > 0:
         if minus_day >= day:
@@ -111,6 +119,7 @@ def day_difference(day_1: int, month_1: int, year_1: int,
         validate_day(day_2, month_2, year_2)
         absolute_day_1 = get_absolute_day(day_1, month_1, year_1)
         absolute_day_2 = get_absolute_day(day_2, month_2, year_2)
+
         return absolute_day_1 - absolute_day_2
     except ValueError as error:
         print(error)
