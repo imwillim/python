@@ -78,6 +78,7 @@ Ví dụ:
 '''
 # Tự code nào.
 # Không ai tính tiền `blank line`.
+# -> Fixed
 def reverse_array(array: list[int]) -> list[int]:
     return array[::-1]
 
