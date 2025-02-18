@@ -1,6 +1,3 @@
-from statistics import median
-from typing import Union
-
 from cs162.homework.weeks.cs162_week01 import get_lines_from_file
 
 '''
@@ -24,6 +21,7 @@ def get_median(array: list[int], size: int) -> float:
 
     mid_1 = array[middle - 1]
     mid_2 = array[middle]
+
     return (mid_1 + mid_2) / 2
 
 
@@ -42,6 +40,7 @@ def double_array(array: list[int], size: int) -> list[int]:
 
     for index in range(size):
         new_array[index] = array[index]
+
     return new_array
 
 
@@ -76,50 +75,69 @@ student passed the exam. Otherwise, it should indicate that the student failed t
 def process_answer():
     student_answers = get_answers_from_file('StudentAnswers.txt')
     correct_answers = get_answers_from_file('CorrectAnswers.txt')
-    total_answer_count = len(correct_answers)
+    wrong_answers = get_wrong_answers(student_answers, correct_answers)
 
-    print_answers(student_answers, correct_answers)
-    print_answers_with_wrong_answers(student_answers, correct_answers, total_answer_count)
+    filtered_wrong_answers = [answer for answer in wrong_answers if answer != ""]
+
+    print_sub_assignment_1(correct_answers, wrong_answers)
+    print_sub_assignment_2(filtered_wrong_answers)
+    print_sub_assignment_3(correct_answers, filtered_wrong_answers)
+    print_sub_assignment_4(correct_answers, filtered_wrong_answers)
 
 
 def get_answers_from_file(file_name: str) -> list[str]:
     answers_lines = get_lines_from_file(file_name)
-    return get_answers_from_lines(answers_lines)
+
+    return [line.strip() for line in answers_lines]
 
 
-def get_answers_from_lines(answer_lines: str) -> list[str]:
-    return [line.strip() for line in answer_lines]
-
-
-def print_answers(student_answers, correct_answers):
-    print('---Process answer of student----')
+def print_sub_assignment_1(student_answers: list[str], correct_answers: list[str]):
     wrong_answers = get_wrong_answers(student_answers, correct_answers)
+
     print('I.a Correct answers:', correct_answers)
     print('I.b Wrong answers:', wrong_answers)
 
 
-def print_answers_with_wrong_answers(student_answers: list[str], correct_answers: list[str], total_answer_count: int):
-    wrong_answers = get_wrong_answers(student_answers, correct_answers)
-
-    filtered_wrong_answers = [answer for answer in wrong_answers if answer != ""]
+def print_sub_assignment_2(filtered_wrong_answers: list[str]):
     wrong_answer_count = len(filtered_wrong_answers)
+
     print('II. The total number of questions missed:', wrong_answer_count)
+
+
+def print_sub_assignment_3(correct_answers: list[str], filtered_wrong_answers: list[str]):
+    total_answer_count = len(correct_answers)
+    wrong_answer_count = len(filtered_wrong_answers)
 
     correct_answer_count = total_answer_count - wrong_answer_count
     correct_percentage = (correct_answer_count / total_answer_count) * 100
+
     print('III. Percentage of questions answered correctly:', correct_percentage)
 
-    result = 'PASSED' if correct_percentage >= 0.7 else 'FAILED'
+
+def print_sub_assignment_4(correct_answers: list[str], filtered_wrong_answers: list[str]):
+    total_answer_count = len(correct_answers)
+    wrong_answer_count = len(filtered_wrong_answers)
+
+    correct_answer_count = total_answer_count - wrong_answer_count
+    correct_percentage = (correct_answer_count / total_answer_count) * 100
+
+    if correct_percentage >= 0.7:
+        result = 'PASSED'
+    else:
+        result = 'FAILED'
+
     print('IV. CONCLUSION: Student ', result)
 
 
 def get_wrong_answers(student_answers: list[str], correct_answers: list[str]) -> list[str]:
     wrong_answers = []
+
     for index in range(len(student_answers)):
         if student_answers[index] == correct_answers[index]:
             wrong_answers.append('')
         else:
             wrong_answers.append(student_answers[index])
+
     return wrong_answers
 
 
