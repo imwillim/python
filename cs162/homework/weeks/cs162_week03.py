@@ -1,6 +1,8 @@
 from statistics import median
 from typing import Union
 
+from cs162.homework.weeks.cs162_week01 import get_lines_from_file
+
 '''
 Assignment 1:
 
@@ -12,8 +14,18 @@ B) An integer that indicates the number of elements in the array
 The function should determine the median of the array. This value should be returned as a double.
 (Assume the values in the array are already sorted.)
 '''
+
+
 def get_median(array: list[int], size: int) -> float:
-    return median(array)
+    middle = size // 2
+
+    if size % 2 == 1:
+        return array[middle]
+
+    mid_1 = array[middle - 1]
+    mid_2 = array[middle]
+    return (mid_1 + mid_2) / 2
+
 
 '''
 Assignment 2:
@@ -22,6 +34,8 @@ Write a function that accepts an int array and the array’s size as arguments. 
 a new array that is twice the size of the argument array. The function should copy the contents of the
 argument array to the new array and initialize the unused elements of the second array with 0.
 '''
+
+
 def double_array(array: list[int], size: int) -> list[int]:
     double_size = 2 * size
     new_array = [0] * double_size
@@ -29,6 +43,7 @@ def double_array(array: list[int], size: int) -> list[int]:
     for index in range(size):
         new_array[index] = array[index]
     return new_array
+
 
 '''
 Assignment 3
@@ -56,15 +71,35 @@ provided by the student for each missed question
 If the percentage of correctly answered questions is 70% or greater, the program should indicate that the
 student passed the exam. Otherwise, it should indicate that the student failed the exam.    
 '''
+
+
 def process_answer():
     student_answers = get_answers_from_file('StudentAnswers.txt')
     correct_answers = get_answers_from_file('CorrectAnswers.txt')
     total_answer_count = len(correct_answers)
 
+    print_answers(student_answers, correct_answers)
+    print_answers_with_wrong_answers(student_answers, correct_answers, total_answer_count)
+
+
+def get_answers_from_file(file_name: str) -> list[str]:
+    answers_lines = get_lines_from_file(file_name)
+    return get_answers_from_lines(answers_lines)
+
+
+def get_answers_from_lines(answer_lines: str) -> list[str]:
+    return [line.strip() for line in answer_lines]
+
+
+def print_answers(student_answers, correct_answers):
     print('---Process answer of student----')
     wrong_answers = get_wrong_answers(student_answers, correct_answers)
     print('I.a Correct answers:', correct_answers)
     print('I.b Wrong answers:', wrong_answers)
+
+
+def print_answers_with_wrong_answers(student_answers: list[str], correct_answers: list[str], total_answer_count: int):
+    wrong_answers = get_wrong_answers(student_answers, correct_answers)
 
     filtered_wrong_answers = [answer for answer in wrong_answers if answer != ""]
     wrong_answer_count = len(filtered_wrong_answers)
@@ -77,32 +112,16 @@ def process_answer():
     result = 'PASSED' if correct_percentage >= 0.7 else 'FAILED'
     print('IV. CONCLUSION: Student ', result)
 
-def get_answers_from_file(file_name) -> Union[str, list[str]]:
-    try:
-        with open(file_name, 'r') as file:
-            size = int(file.readline())
-            lines = file.readlines()
-            answers = [line.strip() for line in lines]
-            return answers
-    except FileNotFoundError as error:
-        return str(error.strerror + ': ' + error.filename)
 
-def get_number_of_answers_from_file(file_name: str) -> Union[str, int]:
-    try:
-        with open(file_name, 'r') as file:
-            size = int(file.readline())
-            return size
-    except FileNotFoundError as error:
-        return str(error.strerror + ': ' + error.filename)
-
-def get_wrong_answers(student_answers: list[int], correct_answers: list[int]) -> list[int]:
-    wrong_answers = list()
+def get_wrong_answers(student_answers: list[str], correct_answers: list[str]) -> list[str]:
+    wrong_answers = []
     for index in range(len(student_answers)):
         if student_answers[index] == correct_answers[index]:
             wrong_answers.append('')
         else:
             wrong_answers.append(student_answers[index])
     return wrong_answers
+
 
 if __name__ == '__main__':
     print('III. CS162 Week 03:')

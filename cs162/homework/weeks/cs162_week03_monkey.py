@@ -53,7 +53,7 @@ def calculate_average_food_consumption(data: list[list[float]]) -> float:
 
 
 def find_least_food_consumed(data: list[list[float]]) -> float:
-    min_food = sys.maxsize
+    min_food = -1
     for monkey in data:
         total_consumed_food_monkey = sum(monkey)
         min_food = min(min_food, total_consumed_food_monkey)
@@ -61,7 +61,7 @@ def find_least_food_consumed(data: list[list[float]]) -> float:
 
 
 def find_greatest_food_consumed(data: list):
-    max_food = -sys.maxsize - 1
+    max_food = data[0]
     for monkey in data:
         total_consumed_food_monkey = sum(monkey)
         max_food = max(max_food, total_consumed_food_monkey)

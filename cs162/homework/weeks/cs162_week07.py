@@ -8,6 +8,7 @@ int sumOfDigits(int x)
 Please implement this recursive function in order to
 calculate the sum of all digits in the decimal representation of x.
 '''
+
 def sum_of_digits(integer: int) -> int:
     if integer == 0:
         return 0
@@ -19,6 +20,7 @@ def sum_of_digits(integer: int) -> int:
 3.4 Recursion with array
 a. Output the array of integer values to screen.
 '''
+
 def print_array(array, index=0):
     if index == len(array):
         return
@@ -29,6 +31,7 @@ def print_array(array, index=0):
 '''
 b. Output the array of integer values to screen in reversed order.
 '''
+
 def print_array_reversed(array, index=None):
     if index is None:
         index = len(array) - 1
@@ -41,6 +44,7 @@ def print_array_reversed(array, index=None):
 '''
 c. Find the sum of positive numbers in the array.
 '''
+
 def sum_positive_numbers(array, index=0):
     if index == len(array):
         return 0
@@ -51,6 +55,7 @@ def sum_positive_numbers(array, index=0):
 '''
 d. Count all distinct values in the array.
 '''
+
 def count_distinct(array, index=0, distinct_values=None):
     if distinct_values is None:
         distinct_values = set()
@@ -63,6 +68,7 @@ def count_distinct(array, index=0, distinct_values=None):
 '''
 e. Check whether the array only contains odd numbers.
 '''
+
 def contains_only_odd(array, index=0):
     if index == len(array):
         return True
@@ -74,6 +80,7 @@ def contains_only_odd(array, index=0):
 '''
 f. Find the maximum value in the array.
 '''
+
 def find_max_value(array, index=0, current_max=None):
     if index == len(array):
         return current_max

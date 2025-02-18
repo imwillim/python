@@ -17,27 +17,32 @@ Sum of their area and save the result to another text file.
 Note: 3 4 1.2 means a circle with center point is at (3,4) and radius is 1.2
 '''
 # Hàm này làm gì trả về gì đâu mà define rtype.
-def sum_area_of_circles(file_name: str) -> Union[Union[str, float], Any]:
-    result = get_total_area(file_name)
-    write_area_to_file('output1.txt', result)
-
 # Code lại, hàm quá rối.
 # Mỗi hàm làm một việc thôi.
-def get_total_area(input_file: str) -> Union[str, Any]:
+# -> Fixed
+def process_sum_area_of_circles(file_name: str):
+    lines = get_lines_from_file(file_name)
+    total_area = calculate_total_area_from_lines(lines)
+    write_area_to_file('output1.txt', total_area)
+
+def get_lines_from_file(input_file: str) -> Union[str, list[str]]:
     try:
         with open(input_file, 'r') as file:
             size = int(file.readline())
             lines = file.readlines()
-            total_area = 0.0
-            for line in lines:
-                center_x, center_y, radius = line.split()
-                area = math.pi * float(radius) * float(radius)
-                total_area += area
-            return total_area
+            return lines
     except FileNotFoundError as error:
         return str(error.strerror + ': ' + error.filename)
 
-def write_area_to_file(output_file: str, area: float) -> None:
+def calculate_total_area_from_lines(lines: list[str]) -> float:
+    total_area = 0
+    for line in lines:
+        center_x, center_y, radius = line.split()
+        area = math.pi * float(radius) * float(radius)
+        total_area += area
+    return total_area
+
+def write_area_to_file(output_file: str, area: float):
     with open(output_file, 'w') as file:
         file.write(str(area))
 
@@ -52,37 +57,30 @@ Sort the array in ascending order and save the array to another text file.
 2019 12 31
 2019 01 15
 '''
-def sort_dates(file_name: str) -> Union[str, Any]:
-    sorted_dates = get_sorted_dates(file_name)
-    write_dates_to_file('output2.txt', sorted_dates)
 
 # Code lại, hàm quá rối.
-def get_sorted_dates(input_file: str) -> Union[str, list[Arrow]]:
-    try:
-        with open(input_file, 'r') as file:
-            size = int(file.readline())
-            lines = file.readlines()
-            dates = []
-            for line in lines:
-                year_string, month_string, day_string = line.split()
-                year = int(year_string)
-                month = int(month_string)
-                day = int(day_string)
-                date = arrow.get(year, month, day)
-                dates.append(date)
-            return sorted(dates)
-    except FileNotFoundError as error:
-        return str(error.strerror + ': ' + error.filename)
+# -> Fixed
+def sort_dates(file_name: str):
+    lines = get_lines_from_file(file_name)
+    string_dates = get_string_dates_from_lines(lines)
+    sorted_dates = sort_date(string_dates)
+    write_dates_to_file('output2.txt', sorted_dates)
 
-def write_dates_to_file(output_file: str, dates: list[Arrow]) -> None:
+def get_string_dates_from_lines(lines: str):
+    return [line.strip() for line in lines]
+
+def sort_date(string_dates):
+    return sorted(string_dates)
+
+def write_dates_to_file(output_file: str, dates: list[str]) -> None:
     with open(output_file, 'w') as file:
         for date in dates:
-            file.write(date.format('DD MM YYYY') + '\n')
+            file.write(date + '\n')
 
 if __name__ == '__main__':
     print('I. CS162 Week 01:')
     print('1. Sum of area of circles - Printed to output1.txt')
-    sum_area_of_circles('input1.txt')
+    process_sum_area_of_circles('input1.txt')
 
     print('2. Sorted dates - Printed to output2.txt')
     sort_dates('input2.txt')
