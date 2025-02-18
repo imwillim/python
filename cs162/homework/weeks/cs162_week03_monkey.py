@@ -1,4 +1,3 @@
-import sys
 
 '''
 Assignment 9
@@ -17,27 +16,36 @@ Then it should create a report that includes the following information:
 Input Validation: Do not accept negative numbers for pounds of food eaten.
 '''
 
+
 def get_food_data(monkey_count: int) -> list[list[float]]:
     data = []
+
     for index in range(monkey_count):
         monkey_data = []
+
         print(f'Enter food consumption for Monkey {index + 1}:')
         input_monkey_data(monkey_data)
         data.append(monkey_data)
+
     return data
+
 
 def input_monkey_data(monkey_data: list[float]) -> None:
     for index in range(7):
+        #TODO - Remove cognitive complexity
         while True:
             try:
                 food = float(input(f'Day {index + 1}: '))
+
                 if food < 0:
                     print('Food consumption cannot be negative. Please enter a non-negative value.')
                 else:
                     monkey_data.append(food)
                     break
+
             except ValueError:
                 print('Invalid input. Please enter a valid number.')
+
 
 def calculate_average_food_consumption(data: list[list[float]]) -> float:
     total_food = 0
@@ -54,17 +62,21 @@ def calculate_average_food_consumption(data: list[list[float]]) -> float:
 
 def find_least_food_consumed(data: list[list[float]]) -> float:
     min_food = -1
+
     for monkey in data:
         total_consumed_food_monkey = sum(monkey)
         min_food = min(min_food, total_consumed_food_monkey)
+
     return min_food
 
 
 def find_greatest_food_consumed(data: list):
     max_food = data[0]
+
     for monkey in data:
         total_consumed_food_monkey = sum(monkey)
         max_food = max(max_food, total_consumed_food_monkey)
+
     return max_food
 
 
@@ -72,10 +84,12 @@ if __name__ == '__main__':
     while True:
         try:
             number_of_monkeys = int(input('Enter the number of monkeys: '))
+
             if number_of_monkeys <= 0:
                 print('The number of monkeys must be greater than zero.')
             else:
                 break
+
         except ValueError:
             print('Invalid input. Please enter a valid number.')
 
