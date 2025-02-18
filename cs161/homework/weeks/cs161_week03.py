@@ -23,11 +23,13 @@ Ví dụ
     Output: 8.6 PASSED
 '''
 
+
 # Sao lúc khai báo có kiểu dữ liệu, lúc không vậy? Thống nhất 1 style thôi.
 # cheating -> is_cheating như vầy mới đúng ngữ nghĩa
 # trong python nên để is_cheating là True/False
 # Rồi làm tròn 1 chữ số đâu.
 # -> Fixed
+
 def passed(assignment: float, lab: float, final: float, is_cheating: bool) -> str:
     assignment_rate = assignment * 0.3
     lab_rate = lab * 0.3
@@ -63,6 +65,8 @@ Ví dụ
     Input: 2019
     Output: Khong phai nam nhuan
 '''
+
+
 # Hàm này nên là is_leap_year và trả về boolean
 # Không ai tính tiền `blank line`.
 def is_leap_year(year: int) -> bool:
@@ -71,11 +75,12 @@ def is_leap_year(year: int) -> bool:
 
     # Không ai viết vậy cả, vì khác với diễn giải bằng lời.
     # Năm nhuân là năm chia hết cho 400 hoặc chia hết cho 4 nhưng không chia hết cho 100
-    
-    if  year % 4 == 0 and year % 100 != 0:
+
+    if year % 4 == 0 and year % 100 != 0:
         return True
 
     return False
+
 
 '''
 P03 - SỐ NGÀY TRONG THÁNG
@@ -97,9 +102,11 @@ Ví dụ
     Input: 2 2020
     Output: 29   
 '''
+
+
 # Trời mẹ, code bình thường, xài if, không được xài hàm có sẵn
 # -> Fixed
-def days_in_month(month: int, year: int) -> int:
+def get_days_in_month(month: int, year: int) -> int:
     thirty_day_months = (4, 6, 9, 11)
 
     if month in thirty_day_months:
@@ -110,6 +117,8 @@ def days_in_month(month: int, year: int) -> int:
         return 29 if is_leap_year(year) else 28
 
     return 31
+
+
 '''
 P04 - NGÀY MAI
 Mô tả
@@ -131,6 +140,8 @@ Ví dụ
     Input: 31 12 2019
     Output: 1 1 2020
 '''
+
+
 # Trời mẹ, code bình thường, xài if, không được xài hàm có sẵn
 # Không ai tính tiền `blank line`.
 # -> Fixed
@@ -142,21 +153,25 @@ def tomorrow(day: int, month: int, year: int) -> str:
     except ValueError as error:
         return str(error)
 
+
 def validate_day(day: int, month: int, year: int):
-    if day > days_in_month(month, year):
+    if day > get_days_in_month(month, year):
         raise ValueError('Invalid day')
+
 
 # Không được lồng 2 if
 def get_tomorrow(day: int, month: int, year: int) -> str:
-    day = day + 1 # Hạn chế viết +=
+    day = day + 1  # Hạn chế viết +=
 
-    if day <= days_in_month(month, year):
+    if day <= get_days_in_month(month, year):
         return f'{day} {month} {year}'
-    
+
     if month > 12:
-        return f'{1} {1} {year+1}'
+        return f'{1} {1} {year + 1}'
 
     return f'{day} {month + 1} {year}'
+
+
 '''
 P26 - TIỀN THUÊ PHÒNG
 Mô tả
@@ -182,6 +197,8 @@ Ví dụ
     Input: 7 C
     Output: 175000
 '''
+
+
 # Không ai tính tiền `blank line`.
 def rent(day, room_type):
     rental_type = {
@@ -192,12 +209,12 @@ def rent(day, room_type):
 
     specific_rental_type = rental_type[room_type]
     rent_before_tax = specific_rental_type['price'] * day
-    
+
     # Áp dụng kĩ thuật fast return, đảo ngược điêu kiện để code ngắn hơn
 
     if day < 12:
         return rent_before_tax
-    
+
     tax = rent_before_tax * specific_rental_type['tax']
 
     return rent_before_tax - tax
@@ -212,7 +229,7 @@ if __name__ == '__main__':
     print(is_leap_year(2000))
 
     print('\n3. Days in Month:')
-    print(days_in_month(12, 2020))
+    print(get_days_in_month(12, 2020))
 
     print('\n4. Tomorrow:')
     print(tomorrow(2, 1, 1999))

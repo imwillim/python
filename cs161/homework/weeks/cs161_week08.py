@@ -13,7 +13,10 @@ Ví dụ
     Input: 7546789876
     Output: 7,546,789,876
 '''
+
+
 # Đúng
+
 def integer_to_string(number: int) -> str:
     return f'{number:,}'
 
@@ -39,6 +42,8 @@ Ví dụ
         b. Những , quan , trọng
         c. Có, Những
 '''
+
+
 # Đúng, nhưng lần sau nên tách thành 3 hàm khác nhau. Mỗi hàm làm 1 việc.
 # Hàm chỉ xử lý, việc in ra đáp án nên để trong hàm main.
 # tên biến string giống keyword (của các ngôn ngữ khác) nên nên đổi tên biến khác.
@@ -50,11 +55,13 @@ def process_sentence(sentence: str, n: int):
     print_words_with_larger_length_than_n(sentence, n)
     print_max_length_word_and_min_length_word(sentence)
 
+
 # Không ai tính tiền `blank line`.
 def print_sentence_with_hyphen(sentence: str):
     hyphen_sentence = sentence.replace(' ', '-')
 
     print('a. ' + hyphen_sentence)
+
 
 # Không ai tính tiền `blank line`.
 def print_words_with_larger_length_than_n(sentence: str, n: int):
@@ -63,6 +70,7 @@ def print_words_with_larger_length_than_n(sentence: str, n: int):
 
     print('b. ' + (', '.join(filtered_words)))
 
+
 # Không ai tính tiền `blank line`.
 def print_max_length_word_and_min_length_word(sentence: str):
     raw_sentence = sentence.split(' ')
@@ -70,6 +78,7 @@ def print_max_length_word_and_min_length_word(sentence: str):
     max_word = max(raw_sentence, key=len)
 
     print(f'c. {min_word}, {max_word}')
+
 
 '''
 P03 - CHUẨN HÓA HỌ VÀ TÊN
@@ -87,19 +96,23 @@ Ví dụ:
     Input: ' nguyEn VAN a '
     Output: 'Nguyen Van A'
 '''
+
+
 # Bài này không dùm hàm có sẵn, tự code.
 # Đây là 1 trong các bài phỏng vấn. Bài gốc là chuẩn hoá chuỗi hoặc đếm từ (word)
 # -> Fixed
 # Không ai tính tiền `blank line`.
+
+
 def normalize_name(name: str) -> str:
     trimmed_name = trim_name(name)
     single_space_name = remove_multiple_spaces(trimmed_name)
-    all_uppercased_name = uppercase_all(single_space_name)
-    capitalized_name = capitalize_name(all_uppercased_name)
+    all_lowercased_name = lowercase_all(single_space_name)
+    capitalized_name = capitalize_name(all_lowercased_name)
 
     return capitalized_name
 
-# Không ai tính tiền `blank line`.
+
 def trim_name(name: str) -> str:
     start = 0
     end = len(name) - 1
@@ -112,61 +125,60 @@ def trim_name(name: str) -> str:
 
     return name[start:end + 1]
 
+
 # Không ai tính tiền `blank line`.
 # Nếu truyền vào 1 kí tự thì zui :))
 def remove_multiple_spaces(name: str) -> str:
-    result = []
+    result = ''
     size = len(name)
 
     for index in range(size):
         if name[index] != ' ':
-            result.append(name[index])
+            result = result + name[index]
 
         if name[index] == ' ' and name[index + 1] != ' ':
-            result.append(' ')
+            result = result + ' '
 
-    return ''.join(result)
+    return result
+
 
 # Code gớm quá, code dính chùm với nhau
-def uppercase_all(name: str) -> str:
-    result = []
+def lowercase_all(name: str) -> str:
+    result = ''
 
-    for char in name:
-        if 'a' <= char <= 'z':
-            # Tách biến phụ làm gì
-            # order = ord(char)
-            char = chr(ord(char) - 32)
-
-        result.append(char)
-    
+    # Tách biến phụ làm gì
+    # order = ord(char)
     # Cách code hay hơn
-    for char in name:
-        if char in string.ascii_lowercase:
-            char = chr(ord(char) - 32)
 
-        result.append(char)
+    for char in name:
+        if char in string.ascii_uppercase:
+            char = chr(ord(char) + 32)
+
+        result = result + char
 
     return ''.join(result)
+
 
 # Code quá rối
-def capitalize_name(uppercased_name: str) -> str:
-    result = []
-    size = len(uppercased_name)
-    first_uppercase_letter = uppercased_name[0]
-    result.append(first_uppercase_letter)
+# -> Fixed
+def capitalize_name(lowercased_name: str) -> str:
+    result = ''
+    is_capitalized = True
 
-    for index in range(1, size):
-        char = uppercased_name[index]
-        previous_char = uppercased_name[index - 1]
-        if previous_char == ' ' and 'A' <= char <= 'Z':
-            result.append(char)
-        elif char == ' ':
-            result.append(char)
+    for char in lowercased_name:
+        if is_capitalized and char in string.ascii_lowercase:
+            is_capitalized = False
+            uppercase_letter = chr(ord(char) - 32)
+
+            result = result + uppercase_letter
         else:
-            order = ord(char)
-            char = chr(order + 32)
-            result.append(char)
-    return ''.join(result)
+            result = result + char
+
+        if char == ' ':
+            is_capitalized = True
+
+    return result
+
 
 if __name__ == '__main__':
     print('VIII. CS161 Week 08:')
@@ -176,4 +188,4 @@ if __name__ == '__main__':
     process_sentence('Những quy tắc đạo đức có một vị trí rất quan trọng', 3)
 
     test_name = ' nguyen  vAN aB '
-    print('\n3. Normalize name of :', normalize_name(test_name))
+    print(f'\n3. Normalize name of {test_name}:', normalize_name(test_name))

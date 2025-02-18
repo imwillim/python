@@ -1,6 +1,4 @@
-from typing import Union, Optional
-
-from cs161.homework.weeks.cs161_week03 import is_leap_year, days_in_month, validate_day
+from cs161.homework.weeks.cs161_week03 import is_leap_year, get_days_in_month, validate_day
 
 '''
 P01 - SỐ THỨ TỰ TUYỆT ĐỐI CỦA NGÀY
@@ -27,6 +25,7 @@ Ví dụ
 # Không xài hàm có sẵn.
 # Không ai tính tiền `blank line`.
 # -> Fixed
+
 def get_absolute_day(day: int, month: int, year: int) -> int:
     try:
         validate_day(day, month, year)
@@ -34,25 +33,33 @@ def get_absolute_day(day: int, month: int, year: int) -> int:
         return calculate_absolute_day(day, month, year)
     except ValueError as error:
         print(error)
+
         return -1
+
 
 # Không ai tính tiền `blank line`.
 def calculate_absolute_day(day: int, month: int, year: int):
-    days = 0
+    absolute_day = 0
 
     # Hạn chế xài +=
+    # -> Fixed
     for specific_year in range(1970, year):
-        days += days_in_year(specific_year)
+        absolute_day = absolute_day + days_in_year(specific_year)
 
     for specific_month in range(1, month):
-        days += days_in_month(specific_month, year)
+        absolute_day = absolute_day + get_days_in_month(specific_month, year)
 
-    days += day
+    absolute_day = absolute_day + day
 
-    return days
+    return absolute_day
+
 
 def days_in_year(year):
-    return 366 if is_leap_year(year) else 365
+    if is_leap_year(year):
+        return 366
+
+    return 365
+
 
 '''
 P02 - TRỪ ĐI N NGÀY
@@ -68,6 +75,8 @@ Dữ liệu đầu vào
 Dữ liệu đầu ra
     Ngày tháng năm kết quả, cách nhau 1 khoảng trắng
 '''
+
+
 # Không xài hàm có sẵn.
 # Không ai tính tiền `blank line`.
 def minus_days(day: int, month: int, year: int, minus_day: int) -> str:
@@ -78,20 +87,27 @@ def minus_days(day: int, month: int, year: int, minus_day: int) -> str:
     except ValueError as error:
         return str(error)
 
+
 # Code lại, lồng quá nhiều cấp
+# -> Fixed
 def process_minus_days(day: int, month: int, year: int, minus_day: int):
-    while minus_day > 0:
-        if minus_day >= day:
-            minus_day -= day
-            month -= 1
-            if month == 0:
-                month = 12
-                year -= 1
-            day = days_in_month(month, year)
-        else:
-            day -= minus_day
-            minus_day = 0
+    while minus_day >= day:
+        minus_day = minus_day - day
+        month = month - 1
+
+        if month == 0:
+            month = 12
+            year = year - 1
+
+        day = get_days_in_month(month, year)
+
+        if month == 2 and is_leap_year(year):
+            day = 29
+
+    day = day - minus_day
+
     return f'{day} {month} {year}'
+
 
 '''
 Mô tả
@@ -110,6 +126,8 @@ Ví dụ
         day2=25 month2=11 year2=2019   
     Output: 5      
 '''
+
+
 # Không xài hàm có sẵn.
 # -> Fixed
 def day_difference(day_1: int, month_1: int, year_1: int,
@@ -117,20 +135,23 @@ def day_difference(day_1: int, month_1: int, year_1: int,
     try:
         validate_day(day_1, month_1, year_1)
         validate_day(day_2, month_2, year_2)
+
         absolute_day_1 = get_absolute_day(day_1, month_1, year_1)
         absolute_day_2 = get_absolute_day(day_2, month_2, year_2)
 
         return absolute_day_1 - absolute_day_2
     except ValueError as error:
         print(error)
+
         return -1
+
 
 if __name__ == '__main__':
     print('IV. CS161 Week 04:')
 
     print('1. Absolute day:', get_absolute_day(1, 10, 2020))
 
-    print('\n2. Minus days:', minus_days(1, 1, 2025, 5))
+    print('\n2. Minus days:', minus_days(1, 1, 2025, 1000))
 
     # Sao xuống dòng nhìn gớm vậy -> DONE
     print('\n3. Day difference:', day_difference(1, 12, 2020, 15, 8, 2020))
