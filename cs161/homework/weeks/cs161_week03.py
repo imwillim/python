@@ -38,7 +38,7 @@ def passed(assignment: float, lab: float, final: float, is_cheating: bool) -> st
     grade = assignment_rate + lab_rate + final_rate
     rounded_one_decimal_grade = round(grade, 1)
 
-    if is_cheating == 1:
+    if is_cheating:
         return f'{rounded_one_decimal_grade} FAILED'
 
     if grade < 5:
@@ -223,7 +223,7 @@ def rent(day, room_type):
 if __name__ == '__main__':
     print('II. CS161 Week 02:')
     print('\n1. Passed or Failed:')
-    print(passed(8, 9, 10, 0))
+    print(passed(8, 9, 10, True))
 
     print('\n2. Leap Year:')
     print(is_leap_year(2000))
