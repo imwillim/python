@@ -44,7 +44,7 @@ def calculate_absolute_day(day: int, month: int, year: int):
     # Hạn chế xài +=
     # -> Fixed
     for specific_year in range(1970, year):
-        absolute_day = absolute_day + days_in_year(specific_year)
+        absolute_day = absolute_day + get_days_in_year(specific_year)
 
     for specific_month in range(1, month):
         absolute_day = absolute_day + get_days_in_month(specific_month, year)
@@ -54,7 +54,7 @@ def calculate_absolute_day(day: int, month: int, year: int):
     return absolute_day
 
 
-def days_in_year(year):
+def get_days_in_year(year):
     if is_leap_year(year):
         return 366
 
