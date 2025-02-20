@@ -71,14 +71,11 @@ Sort the array in ascending order and save the array to another text file.
 
 def sort_dates(file_name: str):
     lines = get_lines_from_file(file_name)
+
     string_dates = [line.strip() for line in lines]
-    sorted_dates = sort_date(string_dates)
+    sorted_string_dates = sorted(string_dates)
 
-    write_dates_to_file('output2.txt', sorted_dates)
-
-
-def sort_date(string_dates):
-    return sorted(string_dates)
+    write_dates_to_file('output2.txt', sorted_string_dates)
 
 
 def write_dates_to_file(output_file: str, dates: list[str]) -> None:
