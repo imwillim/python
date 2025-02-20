@@ -15,6 +15,7 @@ def sum_of_digits(integer: int) -> int:
         return 0
 
     last_digit = integer % 10
+
     return last_digit + sum_of_digits(integer // 10)
 
 
