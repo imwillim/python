@@ -30,7 +30,8 @@ def process_sum_area_of_circles(file_name: str):
 def get_lines_from_file(input_file: str) -> Union[str, list[str]]:
     try:
         with open(input_file, 'r') as file:
-            size = int(file.readline())
+            next(file)
+
             lines = file.readlines()
 
             return lines
